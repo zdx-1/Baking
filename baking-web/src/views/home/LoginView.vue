@@ -27,7 +27,7 @@ import router from "@/router";
 const user = ref({username:'',password:''});
 const login = ()=>{
   let data = qs.stringify(user.value);
-  axios.post('http://localhost:8080/v1/users/login',data).then((response)=>{
+  axios.post('/v1/users/login',data).then((response)=>{
     if(response.data.code==2001){
       ElMessage.success('登录成功!');
       //注意:登录成功后还要保存用户信息

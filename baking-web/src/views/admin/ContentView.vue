@@ -42,7 +42,7 @@ const edit = (content)=>{
 }
 const del = (i,content)=>{
   if(confirm('您确认删除此内容吗?')){
-    axios.post(BASE_URL+'/v1/contents/'+content.id+'/delete').then((response)=>{
+    axios.post('/v1/contents/'+content.id+'/delete').then((response)=>{
       if(response.data.code==2001){
         arr.value.splice(i,1);
         ElMessage.success('删除成功!')
@@ -54,7 +54,7 @@ const del = (i,content)=>{
 const arr = ref([]);
 //2.发请求获取数据
 onMounted(()=>{
-  axios.get(BASE_URL+'/v1/contents/admin').then((response)=>{
+  axios.get('/v1/contents/admin').then((response)=>{
     if(response.data.code==2001){
       arr.value = response.data.data
     }

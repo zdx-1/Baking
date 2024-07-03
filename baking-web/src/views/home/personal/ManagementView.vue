@@ -42,7 +42,7 @@ const edit = (c)=>{
 
 const del = (i,c)=>{
   if (confirm("您确认删除此内容吗?")){
-    axios.post('http://localhost:8080/v1/contents/'+c.id+'/delete').then((response)=>{
+    axios.post('/v1/contents/'+c.id+'/delete').then((response)=>{
       if(response.data.code==2001){
         arr.value.splice(i,1);
         ElMessage.success("删除完成!");
@@ -58,7 +58,7 @@ const catTypeArr = ref([]);
 //立即执行
 onMounted(()=>{
   //请求一级分类数据,并存入类型数组中
-  axios.get('http://localhost:8080/v1/categories/type').then((response)=>{
+  axios.get('/v1/categories/type').then((response)=>{
     if(response.data.code==2001){
       catTypeArr.value = response.data.data;
     }
@@ -76,7 +76,7 @@ const loadContents = ()=>{
   let data = qs.stringify({userId:user.id,type:type.value});
   //向后端发请求拿到真实内容数据
   //注意:这里是get请求,参数以 ?拼接 ?后面的是查询字符串  如果是post请求,没有?是(url,data)
-  axios.get('http://localhost:8080/v1/contents/management?'+data).then((response)=>{
+  axios.get('/v1/contents/management?'+data).then((response)=>{
     if(response.data.code==2001){
       arr.value = response.data.data;
     }

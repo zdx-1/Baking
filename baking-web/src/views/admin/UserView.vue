@@ -6,7 +6,7 @@
     <el-table-column prop="nickname" label="昵称"></el-table-column>
     <el-table-column label="头像">
       <template #default="scope">
-        <el-avatar :src="'http://localhost:8080'+scope.row.imgUrl"></el-avatar>
+        <el-avatar :src="scope.row.imgUrl"></el-avatar>
       </template>
     </el-table-column>
     <el-table-column label="管理员">
@@ -53,7 +53,7 @@ const user = ref({username:'',password:'',nickname:''})
 const add = ()=>{
   dialogVisible.value=false;
   let data = qs.stringify(user.value);
-  axios.post('http://localhost:8080/v1/users/reg',data).then((response)=>{
+  axios.post('/v1/users/reg',data).then((response)=>{
     if(response.data.code==2001){
       ElMessage.success('添加成功!');
       loadData();
@@ -68,7 +68,7 @@ const add = ()=>{
 const changeAdmin =(user)=>{
   //查询字符串:用户id与管理员状态
   let data = qs.stringify({id:user.id,isAdmin:user.isAdmin});
-  axios.post('http://localhost:8080/v1/users/update',data).then((response)=>{
+  axios.post('/v1/users/update',data).then((response)=>{
     if(response.data.code==2001){
       ElMessage.success('修改完成!');
     }
@@ -77,7 +77,7 @@ const changeAdmin =(user)=>{
 
 const arr = ref([]);
 const loadData = ()=>{
-  axios.get('http://localhost:8080/v1/users/admin').then((response)=>{
+  axios.get('/v1/users/admin').then((response)=>{
     if(response.data.code==2001){
       arr.value = response.data.data;
     }
@@ -88,7 +88,7 @@ onMounted(()=>{
 })
 const del = (i,user)=>{
   if(confirm('您确认要删除'+user.nickname+"吗?")){
-    axios.post('http://localhost:8080/v1/users/'+user.id+'/delete').then((response)=>{
+    axios.post('/v1/users/'+user.id+'/delete').then((response)=>{
       if(response.data.code==2001){
         ElMessage.success('删除成功!');
         arr.value.splice(i,1);

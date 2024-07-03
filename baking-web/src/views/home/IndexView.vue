@@ -29,14 +29,14 @@
           <!--7.1给每张卡片的图片与描述增加router-link跳转到详情页/detail -->
           <!--:to="'/detail?id='+item.id" 出现变量 属性绑定 改完在首页点击跳到详情页 地址栏后有id值了-->
           <router-link :to="'/detail?id='+item.id" style="text-decoration: none;color:#333;">
-            <img :src="'http://localhost:8080'+item.imgUrl" style="width:100%;height:150px;">
+            <img :src="BASE_URL+item.imgUrl" style="width:100%;height:150px;">
             <p style="height: 40px;text-decoration: none;">{{item.title}}</p>
           </router-link>
           <!--完成图片下的作者与分类-->
           <el-row :gutter="10">
             <el-col :span="4">
               <!--el-avatar是专门用来设置头像的标签 头像是圆形的-->
-              <el-avatar :src="'http://localhost:8080'+item.userImgUrl"></el-avatar>
+              <el-avatar :src="BASE_URL+item.userImgUrl"></el-avatar>
             </el-col>
             <el-col :span="16" style="font-size:20px;line-height: 40px;">{{ item.nickname }}</el-col>
             <el-col :span="4" style="line-height: 40px;">{{ item.categoryName }}</el-col>
@@ -65,12 +65,12 @@
       <el-col :span="6" v-for="item in videoArr" style="margin-top: 10px;">
         <el-card>
           <router-link :to="'/detail?id='+item.id" style="text-decoration: none;color:#333;">
-            <img :src="'http://localhost:8080'+item.imgUrl" style="width:100%;height:150px;">
+            <img :src="BASE_URL+item.imgUrl" style="width:100%;height:150px;">
             <p style="height: 40px;text-decoration: none;">{{item.title}}</p>
           </router-link>
           <el-row :gutter="10">
             <el-col :span="4">
-              <el-avatar :src="'http://localhost:8080'+item.userImgUrl"></el-avatar>
+              <el-avatar :src="BASE_URL+item.userImgUrl"></el-avatar>
             </el-col>
             <el-col :span="13" style="font-size:20px;line-height: 40px;">{{ item.nickname }}</el-col>
             <el-col :span="7" style="line-height: 40px;">{{ item.categoryName }}</el-col>
@@ -99,13 +99,13 @@
       <el-col :span="6" v-for="item in infoArr" style="margin-top: 10px;">
         <el-card>
           <router-link :to="'/detail?id='+item.id" style="text-decoration: none;color:#333;">
-            <img :src="'http://localhost:8080'+item.imgUrl" style="width:100%;height:150px;">
+            <img :src="BASE_URL+item.imgUrl" style="width:100%;height:150px;">
             <p style="height: 40px;text-decoration: none;">{{item.title}}</p>
           </router-link>
           <el-row :gutter="10">
             <el-col :span="4">
               <!--el-avatar是专门用来设置头像的标签 头像是圆形的-->
-              <el-avatar :src="'http://localhost:8080'+item.userImgUrl"></el-avatar>
+              <el-avatar :src="BASE_URL+item.userImgUrl"></el-avatar>
             </el-col>
             <el-col :span="13" style="font-size:20px;line-height: 40px;">{{ item.nickname }}</el-col>
             <el-col :span="7" style="line-height: 40px;">{{ item.categoryName }}</el-col>
@@ -133,19 +133,19 @@ const infoCatArr = ref([]);
 //2.立即执行
 onMounted(()=>{
   //3.1发请求获取食谱二级分类
-  axios.get('http://localhost:8080/v1/categories/1/sub').then((response)=>{
+  axios.get('/v1/categories/1/sub').then((response)=>{
     if(response.data.code==2001){
       recipeCatArr.value = response.data.data;
     }
   })
   //3.2发请求获取视频二级分类
-  axios.get('http://localhost:8080/v1/categories/2/sub').then((response)=>{
+  axios.get('/v1/categories/2/sub').then((response)=>{
     if(response.data.code==2001){
       videoCatArr.value = response.data.data;
     }
   })
   //3.3发请求获取资讯二级分类
-  axios.get('http://localhost:8080/v1/categories/3/sub').then((response)=>{
+  axios.get('/v1/categories/3/sub').then((response)=>{
     if(response.data.code==2001){
       infoCatArr.value = response.data.data;
     }
@@ -162,7 +162,7 @@ const infoArr = ref([]);
 //5.定义加载内容的方法
 const loadContents = (type,categoryId)=>{
   let data = qs.stringify({type:type,categoryId:categoryId});//将请求参数转为查询字符串格式
-  axios.get('http://localhost:8080/v1/contents/index?'+data)//get请求的参数要 ? 拼接
+  axios.get('/v1/contents/index?'+data)//get请求的参数要 ? 拼接
       .then((response)=>{
         if(response.data.code==2001){
           //三合一:根据不同的type值将响应内容赋值给不同的数组
@@ -196,7 +196,7 @@ const selectInfo = (index)=>{
 const bannerArr = ref([]);
 onMounted(()=>{
   //请求轮播图数据
-  axios.get('http://localhost:8080/v1/banners/index').then((response)=>{
+  axios.get('/v1/banners/index').then((response)=>{
     if(response.data.code==2001){
       bannerArr.value = response.data.data;
     }

@@ -22,7 +22,7 @@
         </div>
         <!--反之,说明是视频,显示此div-->
         <div v-else>
-          <video :src="'http://localhost:8080'+content.videoUrl" controls type="video/mp4" style="width:100%;"></video>
+          <video :src="BASE_URL+content.videoUrl" controls type="video/mp4" style="width:100%;"></video>
         </div>
       </el-card>
       <!--评论相关开始-->
@@ -39,7 +39,7 @@
         </el-row>
         <el-row :gutter="10" v-for="item in commentArr" style="margin: 10px;">
           <el-col :span="2">
-            <el-avatar style="margin:10px;"><img :src="'http://localhost:8080'+item.userImgUrl"></el-avatar>
+            <el-avatar style="margin:10px;"><img :src="BASE_URL+item.userImgUrl"></el-avatar>
           </el-col>
           <el-col :span="22">
             <p style="color:orange;font-weight:bold;margin: 0;font-size: 15px;">{{ item.nickname }}</p>
@@ -53,7 +53,7 @@
       <el-card>
         <div id="head_div"></div>
         <div style="text-align:center;position:relative;bottom:45px;">
-          <el-avatar :size="90" :src="'http://localhost:8080'+content.userImgUrl"
+          <el-avatar :size="90" :src="BASE_URL+content.userImgUrl"
                      style="border:5px solid #fff;"></el-avatar>
           <p style="font-size:20px;font-weight:bold;margin: 5px 0;">{{ content.nickname }}</p>
           <el-icon class="head_icon">
@@ -73,7 +73,7 @@
         <hr>
         <el-row :gutter="10" v-for="item in hotArr">
           <el-col :span="10">
-            <router-link :to="'/detail?id='+item.id"><img :src="'http://localhost:8080/'+item.imgUrl" style="width:100%;"></router-link>
+            <router-link :to="'/detail?id='+item.id"><img :src="BASE_URL+item.imgUrl" style="width:100%;"></router-link>
           </el-col>
           <el-col :span="14">
             <router-link :to="'/detail?id='+item.id"><p class="title_p">{{ item.title }}</p></router-link>
@@ -86,7 +86,7 @@
         <hr>
         <el-row :gutter="10" v-for="item in otherArr">
           <el-col :span="10">
-            <router-link :to="'/detail?id='+item.id"><img :src="'http://localhost:8080/'+item.imgUrl" style="width:100%;"></router-link>
+            <router-link :to="'/detail?id='+item.id"><img :src="BASE_URL+item.imgUrl" style="width:100%;"></router-link>
           </el-col>
           <el-col :span="14">
             <router-link :to="'/detail?id='+item.id"><p class="title_p">{{ item.title }}</p></router-link>
@@ -113,7 +113,7 @@ const commentArr = ref([]);
 
 //加载评论需要传文章id
 const loadComments = (id)=>{
-  axios.get('http://localhost:8080/v1/comments/'+id).then((response)=>{
+  axios.get('/v1/comments/'+id).then((response)=>{
     if(response.data.code==2001){
       commentArr.value = response.data.data;
     }
@@ -133,7 +133,7 @@ const post = ()=>{
   comment.value.userId = user.id;//作者id
   comment.value.contentId = content.value.id;//文章id
   let data = qs.stringify(comment.value);
-  axios.post('http://localhost:8080/v1/comments/add-new',data).then((response)=>{
+  axios.post('/v1/comments/add-new',data).then((response)=>{
     if(response.data.code==2001){
       ElMessage.success('评论完成!');
       //等写了评论列表,评论成功后需要刷新下评论列表
@@ -152,12 +152,12 @@ const initData = ()=>{
   //加载评论列表
   loadComments(id);
   //4.向后端发请求
-  axios.get('http://localhost:8080/v1/contents/' + id + '/detail').then((response) => {
+  axios.get('/v1/contents/' + id + '/detail').then((response) => {
     if (response.data.code == 2001) {
       content.value = response.data.data;
       //注意这里才有用户id
       //请求作者其它文章
-      axios.get('http://localhost:8080/v1/contents/' + content.value.userId + '/other/')
+      axios.get('/v1/contents/' + content.value.userId + '/other/')
           .then((response) => {
             if (response.data.code == 2001) {
               otherArr.value = response.data.data;
@@ -166,7 +166,7 @@ const initData = ()=>{
     }
   })
   //5.请求热门文章 与其他内容没关系，写在onMounted里就行了
-  axios.get('http://localhost:8080/v1/contents/hot').then((response) => {
+  axios.get('/v1/contents/hot').then((response) => {
     if (response.data.code == 2001) {
       hotArr.value = response.data.data;
     }

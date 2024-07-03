@@ -7,7 +7,7 @@
       <!--头像上传开始 action设置上传地址 limit="1"限制上传数量为1 name="file"设置上传参数名称,服务器就需要使用相同的名称-->
       <el-upload
           v-model:file-list="fileList"
-          action="http://localhost:8080/v1/upload"
+          :action="BASE_URL + '/v1/upload'"
           limit="1"
           name="file"
           list-type="picture-card"
@@ -62,7 +62,7 @@ const save = ()=>{
     user.value.imgUrl = url;
   }
   let data = qs.stringify(newUser);
-  axios.post('http://localhost:8080/v1/users/update',data).then((response)=>{
+  axios.post('/v1/users/update',data).then((response)=>{
     if(response.data.code == 2001){
       ElMessage.success('修改完成!');
       //3.注意:修改完成后要更新localStorage里面的数据

@@ -31,7 +31,7 @@ import axios from "axios";
 //发请求获取后台管理轮播图的数据
 const arr = ref([]);
 onMounted(()=>{
-  axios.get(BASE_URL+'/v1/banners/admin').then((response)=>{
+  axios.get('/v1/banners/admin').then((response)=>{
     if(response.data.code==2001){
       arr.value = response.data.data;
     }

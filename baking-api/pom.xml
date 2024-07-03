@@ -5,7 +5,7 @@
     <groupId>com.baking</groupId>
     <artifactId>baking-api</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>baking-api</name>
     <description>baking-api</description>
     <properties>
@@ -15,10 +15,7 @@
         <spring-boot.version>2.6.13</spring-boot.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
+
         <!-- MD5加密依赖 -->
         <dependency>
             <groupId>commons-codec</groupId>
@@ -45,19 +42,10 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-tomcat</artifactId>
-            <scope>provided</scope>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
         <!--MySQL-->
@@ -117,7 +105,7 @@
                 <version>${spring-boot.version}</version>
                 <configuration>
                     <mainClass>com.baking.bakingapi.BakingApiApplication</mainClass>
-                    <skip>true</skip>
+                    <skip>false</skip>
                 </configuration>
                 <executions>
                     <execution>

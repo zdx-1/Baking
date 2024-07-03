@@ -51,7 +51,7 @@ const reg = ()=>{
   //4.使用qs将JS对象转为查询字符串格式,注意导入qs
   let data = qs.stringify(user.value);
   //5.用axios向后端发请求,注意需要导入
-  axios.post('http://localhost:8080/v1/users/reg',data).then((response)=>{
+  axios.post('/v1/users/reg',data).then((response)=>{
     if(response.data.code==2001){
       //6.注册成功显示消息并跳转至登录页
       ElMessage.success("注册成功!");

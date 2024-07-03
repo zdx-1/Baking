@@ -46,7 +46,7 @@
             <!-- 设置气泡卡片2 v-else反之用户不为空(登录后显示)-->
             <el-popover v-else :title="'欢迎'+user.nickname+'回来'" :width="200" popper-style="text-align:center;">
               <template #reference><el-icon size="25" style="margin-top: 30px;" color="#666"><User/></el-icon></template>
-              <el-avatar :src="'http://localhost:8080'+user.imgUrl"></el-avatar>
+              <el-avatar :src="BASE_URL+user.imgUrl"></el-avatar>
               <div style="text-align: center;">
                 <el-button type="success" size="small" @click="router.push('/personal')">个人中心</el-button>
                 <el-button type="danger" size="small" @click="logout()">退出登录</el-button>

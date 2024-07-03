@@ -30,13 +30,13 @@
       新发布稿件没有值(id 封面 等都没有)
       &&fileList.length==0要确保封面图片只能有一张-->
       <img v-if="content.id!=null&&fileList.length==0"
-           :src="'http://localhost:8080'+content.imgUrl"
+           :src="BASE_URL+content.imgUrl"
            style="width: 145px;height: 145px;margin-right:10px;"
       >
       <!-- 此部分内容与InfoView是一样的,可以直接拿过来 -->
       <el-upload
           v-model:file-list="fileList"
-          action="http://localhost:8080/v1/upload"
+          :action="BASE_URL + '/v1/upload'"
           name="file"
           limit="1"
           list-type="picture-card"
@@ -55,11 +55,11 @@
     <el-form-item label="视频" v-show="content.type==2">
       <!--content.id!=null 修改时才显示   videoList.length==0 原来的那个没有才显示新修改的这个，同一时间只能显示一个-->
       <video v-if="content.id!=null&&videoList.length==0"
-             :src="'http://localhost:8080'+content.videoUrl"
+             :src="BASE_URL+content.videoUrl"
              style="width:300px;margin-right:10px;" type="video/mp4" controls></video>
       <el-upload
           v-model:file-list="videoList"
-          action="http://localhost:8080/v1/upload"
+          :action="BASE_URL + '/v1/upload'"
           name="file"
           limit="1"
           accept="video/*"
@@ -107,7 +107,7 @@ const typeChange = ()=>{
   // 加这个是为了防止切换一级标题时把原来的带过去
   content.value.categoryId='';
   //发请求获取二级分类的数据
-  axios.get('http://localhost:8080/v1/categories/'+content.value.type+'/sub').then((response)=>{
+  axios.get('/v1/categories/'+content.value.type+'/sub').then((response)=>{
     if(response.data.code==2001){
       catgoryArr.value = response.data.data;
     }
@@ -118,7 +118,7 @@ onMounted(()=>{
   //当以get方式在url中传递了请求参数时，可用location的search属性提取参数的值,获取的是?以及后面的参数
   if(location.search.includes('id')){
     let id = new URLSearchParams(location.search).get('id');//get()获取指定搜索参数的第一个值
-    axios.get('http://localhost:8080/v1/contents/'+id+'/update').then((response)=>{
+    axios.get('/v1/contents/'+id+'/update').then((response)=>{
       if(response.data.code=2001){
         //将查询到的指定id详细内容装到content中显示
         content.value = response.data.data;
@@ -128,7 +128,7 @@ onMounted(()=>{
         //原因:当前type 1 中没有其它类型的二级分类项
         //解决:重新请求当前content对象中type对应的二级分类
         //复制typeChange()方法中发请求获取二级分类的数据的代码到此处
-        axios.get('http://localhost:8080/v1/categories/'+content.value.type+'/sub').then((response)=>{
+        axios.get('/v1/categories/'+content.value.type+'/sub').then((response)=>{
           if(response.data.code==2001){
             catgoryArr.value = response.data.data;
           }
@@ -137,13 +137,13 @@ onMounted(()=>{
     })
   }
   //发请求获取二级分类的数据
-  axios.get('http://localhost:8080/v1/categories/1/sub').then((response)=>{
+  axios.get('/v1/categories/1/sub').then((response)=>{
     if(response.data.code==2001){
       catgoryArr.value = response.data.data;
     }
   })
 
-  axios.get('http://localhost:8080/v1/categories/type').then((response)=>{
+  axios.get('/v1/categories/type').then((response)=>{
     if(response.data.code==2001){
       catTypeArr.value = response.data.data;
     }
@@ -159,7 +159,7 @@ const handleRemove = (uploadFile) => {
   //得到删除图片的路径
   let imgUrl = uploadFile.response.data;
   //发出删除文件的请求
-  axios.post('http://localhost:8080/v1/remove?imgUrl='+imgUrl).then((response)=>{
+  axios.post('/v1/remove?imgUrl='+imgUrl).then((response)=>{
     if(response.data.code==2001){
       ElMessage.success('服务器已删除该文件!');
     }
@@ -249,7 +249,7 @@ const post = ()=>{
 
   //发请求
   let data = qs.stringify(content.value)
-  axios.post('http://localhost:8080/v1/contents/add-new',data).then((response)=>{
+  axios.post('/v1/contents/add-new',data).then((response)=>{
     if(response.data.code==2001){
       //动态显示提示消息
       ElMessage.success(content.value.id==null?"发布成功!":"修改成功!")
