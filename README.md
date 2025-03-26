@@ -1,7 +1,5 @@
 # Baking——springboot+vue项目
 
-<center>Author	张德鑫	202204102013</center>
-
 ## 项目预览
 
 **在线访问地址**（图片无法加载） 	http://8.130.106.195:88
